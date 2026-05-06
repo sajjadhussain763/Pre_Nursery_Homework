@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OVLP | Pre-Nursery Term III Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4834d4;
+            --secondary: #686de0;
+            --accent: #f0932b;
+            --bg: #f6f9fc;
+            --text: #30336b;
+            --it-blue: #0984e3;
+            --english: #eb4d4b;
+            --urdu: #6ab04c;
+            --math: #f9ca24;
+            --hcd: #7ed6df;
+            --glass: rgba(255, 255, 255, 0.9);
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-radius: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--primary);
+        }
+
+        .logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--primary); }
+
+        /* Hero Section */
+        .hero {
+            height: 85vh;
+            background: linear-gradient(rgba(72, 52, 212, 0.8), rgba(104, 109, 224, 0.8)), url('assets/hero.png') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+            clip-path: ellipse(150% 100% at 50% 0%);
+        }
+
+        .hero h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            max-width: 700px;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .cta-btn {
+            background: var(--accent);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 10px 20px rgba(240, 147, 43, 0.3);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(240, 147, 43, 0.5);
+        }
+
+        /* Overview Section */
+        .overview {
+            padding: 100px 0;
+            background: white;
+            text-align: center;
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: var(--primary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .stat-card {
+            padding: 30px;
+            border-radius: 20px;
+            background: #f8faff;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover { transform: translateY(-10px); }
+
+        .stat-card h3 { font-size: 2.5rem; color: var(--accent); }
+
+        /* Dashboard Grid */
+        .dashboard { padding: 100px 0; background: #f1f4f8; }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 35px;
+        }
+
+        .week-card {
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.4s;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .week-card:hover { transform: translateY(-15px); box-shadow: 0 20px 40px rgba(0,0,0,0.12); }
+
+        .week-header {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .week-body { padding: 30px; }
+
+        .subject-item {
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 4px solid #ddd;
+        }
+
+        .s-english { border-left-color: var(--english); }
+        .s-urdu { border-left-color: var(--urdu); }
+        .s-math { border-left-color: var(--math); }
+        .s-it { border-left-color: var(--it-blue); background: #f0f7ff; padding: 10px 15px; border-radius: 12px; }
+        .s-hcd { border-left-color: var(--hcd); }
+
+        .subject-title { font-weight: 700; font-size: 0.9rem; text-transform: uppercase; color: #535c68; margin-bottom: 5px; }
+        .subject-val { font-size: 1rem; margin-bottom: 10px; color: #2d3436; }
+
+        .res-btn {
+            display: block;
+            text-align: center;
+            padding: 8px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.8rem;
+            transition: opacity 0.2s;
+        }
+
+        .btn-en { background: #ffeaa7; color: #d35400; }
+        .btn-ur { background: #dff9fb; color: #130f40; }
+        .btn-ma { background: #fab1a0; color: #c0392b; }
+        .btn-it { background: var(--it-blue); color: white; }
+        .btn-hc { background: #c7ecee; color: #22a6b3; }
+
+        .res-btn:hover { opacity: 0.8; }
+
+        /* Footer */
+        footer {
+            background: var(--text);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .footer-logo { font-size: 2rem; font-weight: 700; margin-bottom: 20px; color: var(--accent); }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; }
+            .dashboard-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">
+            <img src="assets/mascot.png" alt="Mascot">
+            OVLP ACADEMY
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#dashboard">Dashboard</a></li>
+            <li><a href="#footer">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section id="home" class="hero">
+        <h1>Term III Syllabus</h1>
+        <p>A comprehensive weekly dashboard for Pre-Nursery. Track resources, digital activities, and learning milestones in one place.</p>
+        <a href="#dashboard" class="cta-btn">View Weekly Dashboard</a>
+    </section>
+
+    <section id="overview" class="overview">
+        <div class="container">
+            <h2 class="section-title">Academic Overview</h2>
+            <p style="max-width: 800px; margin: 0 auto 60px;">Term III focuses on refining phonetic awareness, advancing number recognition up to 25, and introducing complex digital interactive skills through our IT integration module.</p>
+            <div class="stats-grid">
+                <div class="stat-card"><h3>10</h3><p>Weeks of Content</p></div>
+                <div class="stat-card"><h3>50</h3><p>Digital Activities</p></div>
+                <div class="stat-card"><h3>5</h3><p>Key Subjects</p></div>
+                <div class="stat-card"><h3>25</h3><p>Number Mastery</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="dashboard" class="dashboard">
+        <div class="container">
+            <h2 class="section-title" style="text-align: center;">Weekly Dashboard</h2>
+            <div class="dashboard-grid">
+                
+                <!-- Week 1 -->
+                <div class="week-card">
+                    <div class="week-header"><h3>WEEK 01</h3></div>
+                    <div class="week-body">
+                        <div class="subject-item s-english">
+                            <div class="subject-title">English</div>
+                            <div class="subject-val">Letter 'q' Phonics</div>
+                            <a href="#" class="res-btn btn-en">Resource Link</a>
+                        </div>
+                        <div class="subject-item s-urdu">
+                            <div class="subject-title">Urdu</div>
+                            <div class="subject-val">Harf Recognition</div>
+                            <a href="#" class="res-btn btn-ur">Resource Link</a>
+                        </div>
+                        <div class="subject-item s-math">
+                            <div class="subject-title">Math</div>
+                            <div class="subject-val">Number 16</div>
+                            <a href="#" class="res-btn btn-ma">Resource Link</a>
+                        </div>
+                        <div class="subject-item s-it">
+                            <div class="subject-title">IT (Digital Activities)</div>
+                            <div class="subject-val">Interactive Phonics Game</div>
+                            <a href="#" class="res-btn btn-it">Resource Link</a>
+                        </div>
+                        <div class="subject-item s-hcd">
+                            <div class="subject-title">HCD</div>
+                            <div class="subject-val">Social Skills 101</div>
+                            <a href="#" class="res-btn btn-hc">Resource Link</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 2 -->
+                <div class="week-card">
+                    <div class="week-header"><h3>WEEK 02</h3></div>
+                    <div class="week-body">
+                        <div class="subject-item s-english"><div class="subject-title">English</div><div class="subject-val">Letter 'r' Activity</div><a href="#" class="res-btn btn-en">Resource Link</a></div>
+                        <div class="subject-item s-urdu"><div class="subject-title">Urdu</div><div class="subject-val">Vocabulary Set A</div><a href="#" class="res-btn btn-ur">Resource Link</a></div>
+                        <div class="subject-item s-math"><div class="subject-title">Math</div><div class="subject-val">Number 17</div><a href="#" class="res-btn btn-ma">Resource Link</a></div>
+                        <div class="subject-item s-it"><div class="subject-title">IT (Digital Activities)</div><div class="subject-val">Shape Sorting Activity</div><a href="#" class="res-btn btn-it">Resource Link</a></div>
+                        <div class="subject-item s-hcd"><div class="subject-title">HCD</div><div class="subject-val">Personal Hygiene</div><a href="#" class="res-btn btn-hc">Resource Link</a></div>
+                    </div>
+                </div>
+
+                <!-- Week 3 -->
+                <div class="week-card">
+                    <div class="week-header"><h3>WEEK 03</h3></div>
+                    <div class="week-body">
+                        <div class="subject-item s-english"><div class="subject-title">English</div><div class="subject-val">Letter 's' Formation</div><a href="#" class="res-btn btn-en">Resource Link</a></div>
+                        <div class="subject-item s-urdu"><div class="subject-title">Urdu</div><div class="subject-val">Phonetic Sounds</div><a href="#" class="res-btn btn-ur">Resource Link</a></div>
+                        <div class="subject-item s-math"><div class="subject-title">Math</div><div class="subject-val">Number 18</div><a href="#" class="res-btn btn-ma">Resource Link</a></div>
+                        <div class="subject-item s-it"><div class="subject-title">IT (Digital Activities)</div><div class="subject-val">Counting to 18 Video</div><a href="#" class="res-btn btn-it">Resource Link</a></div>
+                        <div class="subject-item s-hcd"><div class="subject-title">HCD</div><div class="subject-val">Sharing Concepts</div><a href="#" class="res-btn btn-hc">Resource Link</a></div>
+                    </div>
+                </div>
+
+                <!-- Week 4 -->
+                <div class="week-card">
+                    <div class="week-header"><h3>WEEK 04</h3></div>
+                    <div class="week-body">
+                        <div class="subject-item s-english"><div class="subject-title">English</div><div class="subject-val">Letter 't' Tracing</div><a href="#" class="res-btn btn-en">Resource Link</a></div>
+                        <div class="subject-item s-urdu"><div class="subject-title">Urdu</div><div class="subject-val">Oral Revision</div><a href="#" class="res-btn btn-ur">Resource Link</a></div>
+                        <div class="subject-item s-math"><div class="subject-title">Math</div><div class="subject-val">Number 19</div><a href="#" class="res-btn btn-ma">Resource Link</a></div>
+                        <div class="subject-item s-it"><div class="subject-title">IT (Digital Activities)</div><div class="subject-val">Digital Tracing App</div><a href="#" class="res-btn btn-it">Resource Link</a></div>
+                        <div class="subject-item s-hcd"><div class="subject-title">HCD</div><div class="subject-val">Self-care Basics</div><a href="#" class="res-btn btn-hc">Resource Link</a></div>
+                    </div>
+                </div>
+
+                <!-- Week 5 -->
+                <div class="week-card">
+                    <div class="week-header"><h3>WEEK 05</h3></div>
+                    <div class="week-body">
+                        <div class="subject-item s-english"><div class="subject-title">English</div><div class="subject-val">Letter 'u' Vocab</div><a href="#" class="res-btn btn-en">Resource Link</a></div>
+                        <div class="subject-item s-urdu"><div class="subject-title">Urdu</div><div class="subject-val">Letter Matching</div><a href="#" class="res-btn btn-ur">Resource Link</a></div>
+                        <div class="subject-item s-math"><div class="subject-title">Math</div><div class="subject-val">Number 20</div><a href="#" class="res-btn btn-ma">Resource Link</a></div>
+                        <div class="subject-item s-it"><div class="subject-title">IT (Digital Activities)</div><div class="subject-val">Interactive Vocabulary</div><a href="#" class="res-btn btn-it">Resource Link</a></div>
+                        <div class="subject-item s-hcd"><div class="subject-title">HCD</div><div class="subject-val">Nature Awareness</div><a href="#" class="res-btn btn-hc">Resource Link</a></div>
+                    </div>
+                </div>
+
+                <!-- Week 6 -->
+                <div class="week-card">
+                    <div class="week-header"><h3>WEEK 06</h3></div>
+                    <div class="week-body">
+                        <div class="subject-item s-english"><div class="subject-title">English</div><div class="subject-val">Letter 'v' Phonics</div><a href="#" class="res-btn btn-en">Resource Link</a></div>
+                        <div class="subject-item s-urdu"><div class="subject-title">Urdu</div><div class="subject-val">Word Recognition</div><a href="#" class="res-btn btn-ur">Resource Link</a></div>
+                        <div class="subject-item s-math"><div class="subject-title">Math</div><div class="subject-val">Number 21</div><a href="#" class="res-btn btn-ma">Resource Link</a></div>
+                        <div class="subject-item s-it"><div class="subject-title">IT (Digital Activities)</div><div class="subject-val">Recognition Game</div><a href="#" class="res-btn btn-it">Resource Link</a></div>
+                        <div class="subject-item s-hcd"><div class="subject-title">HCD</div><div class="subject-val">Community Safety</div><a href="#" class="res-btn btn-hc">Resource Link</a></div>
+                    </div>
+                </div>
+
+                <!-- Week 7 -->
+                <div class="week-card">
+                    <div class="week-header"><h3>WEEK 07</h3></div>
+                    <div class="week-body">
+                        <div class="subject-item s-english"><div class="subject-title">English</div><div class="subject-val">Letter 'w' Vocab</div><a href="#" class="res-btn btn-en">Resource Link</a></div>
+                        <div class="subject-item s-urdu"><div class="subject-title">Urdu</div><div class="subject-val">Simple Sentences</div><a href="#" class="res-btn btn-ur">Resource Link</a></div>
+                        <div class="subject-item s-math"><div class="subject-title">Math</div><div class="subject-val">Number 22</div><a href="#" class="res-btn btn-ma">Resource Link</a></div>
+                        <div class="subject-item s-it"><div class="subject-title">IT (Digital Activities)</div><div class="subject-val">Digital Storybook</div><a href="#" class="res-btn btn-it">Resource Link</a></div>
+                        <div class="subject-item s-hcd"><div class="subject-title">HCD</div><div class="subject-val">Empathy Skills</div><a href="#" class="res-btn btn-hc">Resource Link</a></div>
+                    </div>
+                </div>
+
+                <!-- Week 8 -->
+                <div class="week-card">
+                    <div class="week-header"><h3>WEEK 08</h3></div>
+                    <div class="week-body">
+                        <div class="subject-item s-english"><div class="subject-title">English</div><div class="subject-val">Letter 'x' Drill</div><a href="#" class="res-btn btn-en">Resource Link</a></div>
+                        <div class="subject-item s-urdu"><div class="subject-title">Urdu</div><div class="subject-val">Alphabet Review</div><a href="#" class="res-btn btn-ur">Resource Link</a></div>
+                        <div class="subject-item s-math"><div class="subject-title">Math</div><div class="subject-val">Number 23</div><a href="#" class="res-btn btn-ma">Resource Link</a></div>
+                        <div class="subject-item s-it"><div class="subject-title">IT (Digital Activities)</div><div class="subject-val">Logic & Shapes</div><a href="#" class="res-btn btn-it">Resource Link</a></div>
+                        <div class="subject-item s-hcd"><div class="subject-title">HCD</div><div class="subject-val">Rule Following</div><a href="#" class="res-btn btn-hc">Resource Link</a></div>
+                    </div>
+                </div>
+
+                <div class="week-card">
+                    <div class="week-header"><h3>WEEK 09</h3></div>
+                    <div class="week-body">
+                        <div class="subject-item s-english"><div class="subject-title">English</div><div class="subject-val">Letters 'y' & 'z'</div><a href="#" class="res-btn btn-en">Resource Link</a></div>
+                        <div class="subject-item s-urdu"><div class="subject-title">Urdu</div><div class="subject-val">Alphabet Drill</div><a href="#" class="res-btn btn-ur">Resource Link</a></div>
+                        <div class="subject-item s-math"><div class="subject-title">Math</div><div class="subject-val">Numbers 24-25</div><a href="#" class="res-btn btn-ma">Resource Link</a></div>
+                        <div class="subject-item s-it"><div class="subject-title">IT (Digital Activities)</div><div class="subject-val">Full Alphabet Recap</div><a href="#" class="res-btn btn-it">Resource Link</a></div>
+                        <div class="subject-item s-hcd"><div class="subject-title">HCD</div><div class="subject-val">Community Helpers</div><a href="#" class="res-btn btn-hc">Resource Link</a></div>
+                    </div>
+                </div>
+
+                <div class="week-card">
+                    <div class="week-header"><h3>WEEK 10</h3></div>
+                    <div class="week-body">
+                        <div class="subject-item s-english"><div class="subject-title">English</div><div class="subject-val">Final Revision</div><a href="#" class="res-btn btn-en">Resource Link</a></div>
+                        <div class="subject-item s-urdu"><div class="subject-title">Urdu</div><div class="subject-val">Oral Assessment</div><a href="#" class="res-btn btn-ur">Resource Link</a></div>
+                        <div class="subject-item s-math"><div class="subject-title">Math</div><div class="subject-val">Concept Check</div><a href="#" class="res-btn btn-ma">Resource Link</a></div>
+                        <div class="subject-item s-it"><div class="subject-title">IT (Digital Activities)</div><div class="subject-val">Term III Review Games</div><a href="#" class="res-btn btn-it">Resource Link</a></div>
+                        <div class="subject-item s-hcd"><div class="subject-title">HCD</div><div class="subject-val">Final Celebration</div><a href="#" class="res-btn btn-hc">Resource Link</a></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer">
+        <div class="footer-logo">OVLP ACADEMY</div>
+        <p>Pre-Nursery Term III Portal | All Rights Reserved &copy; 2026</p>
+        <div style="margin-top: 20px; opacity: 0.6; font-size: 0.8rem;">
+            Designed for interactive learning environments.
+        </div>
+    </footer>
+
+</body>
+</html>
