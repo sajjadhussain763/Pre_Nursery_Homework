@@ -3,472 +3,962 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OVLP | Pre-Nursery Term III Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>OVLP | Pre-Nursery Educational Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #4834d4;
             --secondary: #686de0;
             --accent: #f0932b;
-            --bg: #f6f9fc;
-            --text: #30336b;
-            --it-blue: #0984e3;
-            --english: #eb4d4b;
-            --urdu: #6ab04c;
-            --math: #f9ca24;
-            --hcd: #7ed6df;
-            --glass: rgba(255, 255, 255, 0.9);
-            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --bg: #f4f7fb;
+            --sidebar-bg: #ffffff;
+            --text-main: #2d3436;
+            --text-light: #636e72;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0,0,0,0.05);
+            --radius: 16px;
+            
+            /* Subject Colors */
+            --english: #ff7675;
+            --urdu: #55efc4;
+            --math: #fdcb6e;
+            --it: #74b9ff;
+            --hcd: #a29bfe;
+            --pe: #ffeaa7;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            scroll-behavior: smooth;
+            font-family: 'Quicksand', sans-serif;
         }
 
         body {
-            font-family: 'Quicksand', sans-serif;
             background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            overflow-x: hidden;
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
         }
 
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 1200px;
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            padding: 15px 30px;
-            border-radius: 50px;
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            box-shadow: 2px 0 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transition: all 0.3s;
+        }
+
+        .brand {
+            padding: 30px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .brand i { font-size: 2rem; color: var(--accent); }
+
+        .nav-menu {
+            padding: 20px 0;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: all 0.2s;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: rgba(72, 52, 212, 0.05);
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+
+        .nav-item i { width: 20px; text-align: center; font-size: 1.2rem; }
+
+        /* Main Content Area */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .topbar {
+            background: var(--white);
+            padding: 20px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 1000;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+            position: sticky;
+            top: 0;
+            z-index: 90;
         }
 
-        .logo {
+        .search-bar {
+            background: var(--bg);
+            padding: 10px 20px;
+            border-radius: 50px;
             display: flex;
             align-items: center;
             gap: 10px;
-            font-family: 'Outfit', sans-serif;
-            font-weight: 700;
-            font-size: 1.4rem;
-            color: var(--primary);
+            width: 300px;
+        }
+        
+        .search-bar input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            font-size: 0.95rem;
         }
 
-        .logo img {
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 600;
+        }
+        
+        .user-profile img {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 25px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text);
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover { color: var(--primary); }
-
-        /* Hero Section */
-        .hero {
-            height: 85vh;
-            background: linear-gradient(rgba(72, 52, 212, 0.8), rgba(104, 109, 224, 0.8)), url('assets/hero.png') center/cover;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: white;
-            padding: 20px;
-            clip-path: ellipse(150% 100% at 50% 0%);
-        }
-
-        .hero h1 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 4rem;
-            margin-bottom: 20px;
-            animation: fadeInDown 1s ease;
-        }
-
-        .hero p {
-            font-size: 1.4rem;
-            max-width: 700px;
-            opacity: 0.9;
-            margin-bottom: 30px;
-        }
-
-        .cta-btn {
             background: var(--accent);
-            color: white;
-            padding: 15px 40px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1.1rem;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 10px 20px rgba(240, 147, 43, 0.3);
         }
 
-        .cta-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(240, 147, 43, 0.5);
-        }
+        .content-container { padding: 40px; }
+        
+        /* Views */
+        .view-section { display: none; animation: fadeIn 0.4s ease; }
+        .view-section.active { display: block; }
 
-        /* Overview Section */
-        .overview {
-            padding: 100px 0;
-            background: white;
-            text-align: center;
-        }
-
-        .section-title {
+        /* Page Headers */
+        .page-header {
+            margin-bottom: 30px;
             font-family: 'Outfit', sans-serif;
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-            color: var(--primary);
+        }
+        .page-header h1 { font-size: 2.2rem; color: var(--primary); margin-bottom: 5px; }
+        .page-header p { color: var(--text-light); font-size: 1.1rem; }
+
+        /* Tabs System */
+        .tabs-wrapper { margin-bottom: 30px; }
+        .tabs-header {
+            display: flex;
+            gap: 10px;
+            border-bottom: 2px solid #e1e8ef;
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+        .tab-btn {
+            padding: 12px 25px;
+            background: transparent;
+            border: none;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            position: relative;
+            transition: color 0.3s;
+            white-space: nowrap;
+        }
+        .tab-btn:hover { color: var(--primary); }
+        .tab-btn.active { color: var(--primary); }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px 3px 0 0;
         }
 
-        .stats-grid {
+        .tab-content { display: none; animation: fadeIn 0.3s; }
+        .tab-content.active { display: block; }
+
+        /* Cards Layout */
+        .grid-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
         }
 
-        .stat-card {
-            padding: 30px;
-            border-radius: 20px;
-            background: #f8faff;
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0,0,0,0.02);
             transition: transform 0.3s;
         }
-
-        .stat-card:hover { transform: translateY(-10px); }
-
-        .stat-card h3 { font-size: 2.5rem; color: var(--accent); }
-
-        /* Dashboard Grid */
-        .dashboard { padding: 100px 0; background: #f1f4f8; }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-            gap: 35px;
-        }
-
-        .week-card {
-            background: white;
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: all 0.4s;
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .week-card:hover { transform: translateY(-15px); box-shadow: 0 20px 40px rgba(0,0,0,0.12); }
-
-        .week-header {
-            background: var(--primary);
-            color: white;
-            padding: 20px;
-            text-align: center;
-            font-family: 'Outfit', sans-serif;
-        }
-
-        .week-body { padding: 30px; }
-
-        .subject-item {
+        .card:hover { transform: translateY(-5px); }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
             margin-bottom: 20px;
-            padding-left: 15px;
-            border-left: 4px solid #ddd;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 15px;
         }
-
-        .s-english { border-left-color: var(--english); }
-        .s-urdu { border-left-color: var(--urdu); }
-        .s-math { border-left-color: var(--math); }
-        .s-it { border-left-color: var(--it-blue); background: #f0f7ff; padding: 10px 15px; border-radius: 12px; }
-        .s-hcd { border-left-color: var(--hcd); }
-
-        .subject-title { font-weight: 700; font-size: 0.9rem; text-transform: uppercase; color: #535c68; margin-bottom: 5px; }
-        .subject-val { font-size: 1rem; margin-bottom: 10px; color: #2d3436; }
-
-        .res-btn {
-            display: block;
-            text-align: center;
-            padding: 8px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.8rem;
-            transition: opacity 0.2s;
-        }
-
-        .btn-en { background: #ffeaa7; color: #d35400; }
-        .btn-ur { background: #dff9fb; color: #130f40; }
-        .btn-ma { background: #fab1a0; color: #c0392b; }
-        .btn-it { background: var(--it-blue); color: white; }
-        .btn-hc { background: #c7ecee; color: #22a6b3; }
-
-        .res-btn:hover { opacity: 0.8; }
-
-        /* Footer */
-        footer {
-            background: var(--text);
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
             color: white;
-            padding: 80px 20px;
-            text-align: center;
         }
 
-        .footer-logo { font-size: 2rem; font-weight: 700; margin-bottom: 20px; color: var(--accent); }
+        /* Specific Icon Colors */
+        .ic-en { background: var(--english); }
+        .ic-ur { background: var(--urdu); }
+        .ic-ma { background: var(--math); }
+        .ic-it { background: var(--it); }
+        .ic-hc { background: var(--hcd); }
+        .ic-pe { background: var(--pe); color: var(--text-main); }
 
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
+        .card-title h3 { font-family: 'Outfit', sans-serif; font-size: 1.3rem; }
+        .card-title p { font-size: 0.9rem; color: var(--text-light); }
+
+        /* iFrame Embedding */
+        .iframe-container {
+            width: 100%;
+            height: 350px;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #e9ecef;
+            position: relative;
+            margin-bottom: 15px;
+        }
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .file-list { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+        .file-item {
+            padding: 12px 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border: 1px solid #e1e8ef;
+        }
+        .file-item:hover, .file-item.active { background: #eef2f7; border-color: var(--primary); }
+        .file-item i { color: var(--primary); font-size: 1.2rem; }
+        .file-details { flex-grow: 1; }
+        .file-details h4 { font-size: 0.95rem; margin-bottom: 2px; }
+        .file-details p { font-size: 0.8rem; color: var(--text-light); }
+        .btn-view { background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
+
+        /* Day-wise styling */
+        .day-block {
+            background: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+        }
+        .day-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+        .subject-row {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 20px;
+            padding: 15px 0;
+            border-bottom: 1px dashed #e1e8ef;
+        }
+        .subject-row:last-child { border-bottom: none; }
+        .subj-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            text-align: center;
+        }
+        .bg-cw { background: #e3f2fd; color: #1565c0; }
+        .bg-hw { background: #fbe9e7; color: #d84315; }
+        
+        .task-list { list-style-type: none; }
+        .task-list li { margin-bottom: 8px; position: relative; padding-left: 20px; }
+        .task-list li::before {
+            content: '\f0da';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        /* Modals/Mockups */
+        .mockup-alert {
+            background: #fff3cd;
+            color: #856404;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #ffeeba;
+            margin-bottom: 20px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .nav-links { display: none; }
-            .dashboard-grid { grid-template-columns: 1fr; }
-        }
-        .resource-links {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-top: 5px;
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; flex-direction: row; align-items: center; padding: 10px 20px; }
+            .nav-menu { display: flex; overflow-x: auto; padding: 0; }
+            .nav-item { padding: 10px; border-left: none; border-bottom: 3px solid transparent; white-space: nowrap; }
+            .nav-item:hover, .nav-item.active { border-left: none; border-bottom-color: var(--primary); }
+            .brand { padding: 0; border: none; margin-right: 20px; }
+            .topbar { display: none; }
+            .subject-row { grid-template-columns: 1fr; gap: 10px; }
         }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">
-            <img src="assets/mascot.png" alt="Mascot">
-            OVLP ACADEMY
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="brand">
+            <i class="fa-solid fa-graduation-cap"></i>
+            OVLP Portal
         </div>
-        <ul class="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#overview">Overview</a></li>
-            <li><a href="#dashboard">Dashboard</a></li>
-            <li><a href="#footer">Contact</a></li>
-        </ul>
-    </nav>
+        <nav class="nav-menu">
+            <a class="nav-item" onclick="switchView('view-dashboard', this)"><i class="fa-solid fa-house"></i> Dashboard</a>
+            <a class="nav-item active" onclick="switchView('view-week1', this)"><i class="fa-solid fa-book-open"></i> Week 1 (Current)</a>
+            <a class="nav-item" onclick="switchView('view-parents', this)"><i class="fa-solid fa-users"></i> Parent Dashboard</a>
+            <a class="nav-item" onclick="switchView('view-admin', this)"><i class="fa-solid fa-user-shield"></i> Admin Panel</a>
+        </nav>
+    </aside>
 
-    <section id="home" class="hero">
-        <h1>Term III Syllabus</h1>
-        <p>A comprehensive weekly dashboard for Pre-Nursery. Track resources, digital activities, and learning milestones in one place.</p>
-        <a href="#dashboard" class="cta-btn">View Weekly Dashboard</a>
-    </section>
-
-    <section id="overview" class="overview">
-        <div class="container">
-            <h2 class="section-title">Academic Overview</h2>
-            <p style="max-width: 800px; margin: 0 auto 60px;">Term III focuses on refining phonetic awareness, advancing number recognition up to 25, and introducing complex digital interactive skills through our IT integration module.</p>
-            <div class="stats-grid">
-                <div class="stat-card"><h3>10</h3><p>Weeks of Content</p></div>
-                <div class="stat-card"><h3>50</h3><p>Digital Activities</p></div>
-                <div class="stat-card"><h3>5</h3><p>Key Subjects</p></div>
-                <div class="stat-card"><h3>25</h3><p>Number Mastery</p></div>
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="topbar">
+            <div class="search-bar">
+                <i class="fa-solid fa-search"></i>
+                <input type="text" placeholder="Search lessons, files, or activities...">
             </div>
-        </div>
-    </section>
-
-    <section id="dashboard" class="dashboard">
-        <div class="container">
-            <h2 class="section-title" style="text-align: center;">Weekly Dashboard</h2>
-            <div class="dashboard-grid">
-                
-                <!-- Week 1 -->
-                <div class="week-card">
-                    <div class="week-header"><h3>WEEK 01</h3></div>
-                    <div class="week-body">
-                        <div class="subject-item s-english">
-                            <div class="subject-title">English</div>
-                            <div class="subject-val">Letter 'q'</div>
-                            <div class="resource-links">
-                                <a href="https://drive.google.com/file/d/1YPejH9GCHm0rIpelgWYzrax3qNHjepIF/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-en">Class story Tree</a>
-                                <a href="https://drive.google.com/file/d/1lwAwKqlnQvW-hFTRBqN4f_tHvo_02jVv/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-en">The Honest Elephant</a>
-                                <a href="https://drive.google.com/file/d/1hrU64ZV_7dvGoZSJRF4QpyeplmHG4HZc/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-en">Letter q</a>
-                                <a href="https://drive.google.com/file/d/1p0tTL2nLOLiDIQcYsRddgsjxJyd64VBW/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-en">Reading Letter q</a>
-                            </div>
-                        </div>
-                        <div class="subject-item s-urdu">
-                            <div class="subject-title">Urdu</div>
-                            <div class="subject-val">Harf zay</div>
-                            <div class="resource-links">
-                                <a href="https://drive.google.com/file/d/1l1Gdko6TYpm5cb6e8JHlenTX2PK9_s5h/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-ur">Murghi or chiriya</a>
-                                <a href="https://drive.google.com/file/d/1ncUv2pL3RmwAOLrY5lHQ84rCgscjfDzj/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-ur">Bhalu ka bacha</a>
-                                <a href="https://drive.google.com/file/d/1kickcOMQo0xpV-bJFEhDATb68gkuEENC/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-ur">Ont or saya</a>
-                                <a href="https://drive.google.com/file/d/11BjDqU8D34audtVqVuLmQ8oKHD127MU3/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-ur">Harf zay</a>
-                                <a href="https://drive.google.com/file/d/1nLl5xOs8ZuVkBnnIXE07c94HswtUJsQY/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-ur">Reading Harf zay</a>
-                            </div>
-                        </div>
-                        <div class="subject-item s-math">
-                            <div class="subject-title">Math</div>
-                            <div class="subject-val">Number 16</div>
-                            <div class="resource-links">
-                                <a href="https://drive.google.com/file/d/1v0P5MBRvRU_6_88h_bSGOyHdPy_Bu6_w/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-ma">Number 16</a>
-                                <a href="https://drive.google.com/file/d/1YqjIRgXZsZumvn__i9o6BZDFkvpzastO/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-ma">Reading Number 16</a>
-                            </div>
-                        </div>
-                        <div class="subject-item s-it">
-                            <div class="subject-title">IT (Digital Activities)</div>
-                            <div class="subject-val">Term 3 Video</div>
-                            <div class="resource-links">
-                                <a href="#" target="_blank" rel="noopener noreferrer" class="res-btn btn-it">OVLP IT Term 3.mp4</a>
-                            </div>
-                        </div>
-                        <div class="subject-item s-hcd">
-                            <div class="subject-title">HCD Modules</div>
-                            <div class="subject-val" style="font-size: 0.85rem; line-height: 1.4;">
-                                <strong>Circle Time:</strong> Taking Care/Pet Animals<br>
-                                <strong>Health &amp; Nutrition:</strong> Food is Papaya<br>
-                                <strong>P.E:</strong> Record height &amp; weight<br>
-                                <strong>Questions:</strong> Nation, Faith, GK
-                            </div>
-                            <div class="resource-links" style="margin-top: 8px;">
-                                <a href="#" target="_blank" rel="noopener noreferrer" class="res-btn btn-hc">P. NTIIISRP1</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Week 2 -->
-                <div class="week-card">
-                    <div class="week-header"><h3>WEEK 02</h3></div>
-                    <div class="week-body">
-                        <div class="subject-item s-english"><div class="subject-title">English</div><div class="subject-val">Letter 'r' Activity</div><a href="https://drive.google.com/file/d/1p0tTL2nLOLiDIQcYsRddgsjxJyd64VBW/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-en">Resource Link</a></div>
-                        <div class="subject-item s-urdu"><div class="subject-title">Urdu</div><div class="subject-val">Vocabulary Set A</div><a href="https://drive.google.com/file/d/1nLl5xOs8ZuVkBnnIXE07c94HswtUJsQY/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-ur">Resource Link</a></div>
-                        <div class="subject-item s-math"><div class="subject-title">Math</div><div class="subject-val">Number 17</div><a href="https://drive.google.com/file/d/1YqjIRgXZsZumvn__i9o6BZDFkvpzastO/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-ma">Resource Link</a></div>
-                        <div class="subject-item s-it"><div class="subject-title">IT (Digital Activities)</div><div class="subject-val">Shape Sorting Activity</div><a href="https://drive.google.com/file/d/1gpyIC87xm8UDAPR19_Jnh6V2HPQzqmtn/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-it">Resource Link</a></div>
-                        <div class="subject-item s-hcd"><div class="subject-title">HCD</div><div class="subject-val">Personal Hygiene</div><a href="https://drive.google.com/file/d/1gpyIC87xm8UDAPR19_Jnh6V2HPQzqmtn/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-hc">Resource Link</a></div>
-                    </div>
-                </div>
-
-                <!-- Week 3 -->
-                <div class="week-card">
-                    <div class="week-header"><h3>WEEK 03</h3></div>
-                    <div class="week-body">
-                        <div class="subject-item s-english"><div class="subject-title">English</div><div class="subject-val">Letter 's' Formation</div><a href="https://drive.google.com/file/d/1IACTdeGUYCCcnI03K7Rnjw_ZzRydPrHp/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-en">Resource Link</a></div>
-                        <div class="subject-item s-urdu"><div class="subject-title">Urdu</div><div class="subject-val">Phonetic Sounds</div><a href="https://drive.google.com/file/d/1gfitJIfYyX3eyfiFI8fLORMnAdqGC_0j/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-ur">Resource Link</a></div>
-                        <div class="subject-item s-math"><div class="subject-title">Math</div><div class="subject-val">Number 18</div><a href="https://drive.google.com/file/d/1gfitJIfYyX3eyfiFI8fLORMnAdqGC_0j/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-ma">Resource Link</a></div>
-                        <div class="subject-item s-it"><div class="subject-title">IT (Digital Activities)</div><div class="subject-val">Counting to 18 Video</div><a href="https://drive.google.com/file/d/1MIrXKfNqh5muzfAk0FXota_k4Ffg_Llc/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-it">Resource Link</a></div>
-                        <div class="subject-item s-hcd"><div class="subject-title">HCD</div><div class="subject-val">Sharing Concepts</div><a href="https://drive.google.com/file/d/1gfitJIfYyX3eyfiFI8fLORMnAdqGC_0j/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-hc">Resource Link</a></div>
-                    </div>
-                </div>
-
-                <!-- Week 4 -->
-                <div class="week-card">
-                    <div class="week-header"><h3>WEEK 04</h3></div>
-                    <div class="week-body">
-                        <div class="subject-item s-english"><div class="subject-title">English</div><div class="subject-val">Letter 't' Tracing</div><a href="https://drive.google.com/file/d/1_NuFcFhvHB-x8_kt7txATyrmQqa9tJ0T/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-en">Resource Link</a></div>
-                        <div class="subject-item s-urdu"><div class="subject-title">Urdu</div><div class="subject-val">Oral Revision</div><a href="https://drive.google.com/file/d/1gfitJIfYyX3eyfiFI8fLORMnAdqGC_0j/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-ur">Resource Link</a></div>
-                        <div class="subject-item s-math"><div class="subject-title">Math</div><div class="subject-val">Number 19</div><a href="https://drive.google.com/file/d/1gfitJIfYyX3eyfiFI8fLORMnAdqGC_0j/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-ma">Resource Link</a></div>
-                        <div class="subject-item s-it"><div class="subject-title">IT (Digital Activities)</div><div class="subject-val">Digital Tracing App</div><a href="https://drive.google.com/file/d/1_NuFcFhvHB-x8_kt7txATyrmQqa9tJ0T/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-it">Resource Link</a></div>
-                        <div class="subject-item s-hcd"><div class="subject-title">HCD</div><div class="subject-val">Self-care Basics</div><a href="https://drive.google.com/file/d/1gfitJIfYyX3eyfiFI8fLORMnAdqGC_0j/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-hc">Resource Link</a></div>
-                    </div>
-                </div>
-
-                <!-- Week 5 -->
-                <div class="week-card">
-                    <div class="week-header"><h3>WEEK 05</h3></div>
-                    <div class="week-body">
-                        <div class="subject-item s-english"><div class="subject-title">English</div><div class="subject-val">Letter 'u' Vocab</div><a href="https://drive.google.com/file/d/11BjDqU8D34audtVqVuLmQ8oKHD127MU3/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-en">Resource Link</a></div>
-                        <div class="subject-item s-urdu"><div class="subject-title">Urdu</div><div class="subject-val">Letter Matching</div><a href="https://drive.google.com/file/d/19cAiBBcr_zS0uhBebNdy0X5CQG_6enW_/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-ur">Resource Link</a></div>
-                        <div class="subject-item s-math"><div class="subject-title">Math</div><div class="subject-val">Number 20</div><a href="https://drive.google.com/file/d/19cAiBBcr_zS0uhBebNdy0X5CQG_6enW_/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-ma">Resource Link</a></div>
-                        <div class="subject-item s-it"><div class="subject-title">IT (Digital Activities)</div><div class="subject-val">Interactive Vocabulary</div><a href="https://drive.google.com/file/d/19cAiBBcr_zS0uhBebNdy0X5CQG_6enW_/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-it">Resource Link</a></div>
-                        <div class="subject-item s-hcd"><div class="subject-title">HCD</div><div class="subject-val">Nature Awareness</div><a href="https://drive.google.com/file/d/19cAiBBcr_zS0uhBebNdy0X5CQG_6enW_/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-hc">Resource Link</a></div>
-                    </div>
-                </div>
-
-                <!-- Week 6 -->
-                <div class="week-card">
-                    <div class="week-header"><h3>WEEK 06</h3></div>
-                    <div class="week-body">
-                        <div class="subject-item s-english"><div class="subject-title">English</div><div class="subject-val">Letter 'v' Phonics</div><a href="https://drive.google.com/file/d/16gT-5-YGsKgostrKDHbHrvBsTXi_tmGN/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-en">Resource Link</a></div>
-                        <div class="subject-item s-urdu"><div class="subject-title">Urdu</div><div class="subject-val">Word Recognition</div><a href="https://drive.google.com/file/d/1XqKOvdpne573kM3M2BDOBKxsXsZRw67S/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-ur">Resource Link</a></div>
-                        <div class="subject-item s-math"><div class="subject-title">Math</div><div class="subject-val">Number 21</div><a href="https://drive.google.com/file/d/1XqKOvdpne573kM3M2BDOBKxsXsZRw67S/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-ma">Resource Link</a></div>
-                        <div class="subject-item s-it"><div class="subject-title">IT (Digital Activities)</div><div class="subject-val">Recognition Game</div><a href="https://drive.google.com/file/d/1XqKOvdpne573kM3M2BDOBKxsXsZRw67S/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-it">Resource Link</a></div>
-                        <div class="subject-item s-hcd"><div class="subject-title">HCD</div><div class="subject-val">Community Safety</div><a href="https://drive.google.com/file/d/1XqKOvdpne573kM3M2BDOBKxsXsZRw67S/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-hc">Resource Link</a></div>
-                    </div>
-                </div>
-
-                <!-- Week 7 -->
-                <div class="week-card">
-                    <div class="week-header"><h3>WEEK 07</h3></div>
-                    <div class="week-body">
-                        <div class="subject-item s-english"><div class="subject-title">English</div><div class="subject-val">Letter 'w' Vocab</div><a href="https://drive.google.com/file/d/1xPTADJMpWAxDdBuJS6gU6F8yA0l6powO/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-en">Resource Link</a></div>
-                        <div class="subject-item s-urdu"><div class="subject-title">Urdu</div><div class="subject-val">Simple Sentences</div><a href="https://drive.google.com/file/d/1xPTADJMpWAxDdBuJS6gU6F8yA0l6powO/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-ur">Resource Link</a></div>
-                        <div class="subject-item s-math"><div class="subject-title">Math</div><div class="subject-val">Number 22</div><a href="https://drive.google.com/file/d/1xPTADJMpWAxDdBuJS6gU6F8yA0l6powO/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-ma">Resource Link</a></div>
-                        <div class="subject-item s-it"><div class="subject-title">IT (Digital Activities)</div><div class="subject-val">Digital Storybook</div><a href="https://drive.google.com/file/d/1xPTADJMpWAxDdBuJS6gU6F8yA0l6powO/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-it">Resource Link</a></div>
-                        <div class="subject-item s-hcd"><div class="subject-title">HCD</div><div class="subject-val">Empathy Skills</div><a href="https://drive.google.com/file/d/1xPTADJMpWAxDdBuJS6gU6F8yA0l6powO/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-hc">Resource Link</a></div>
-                    </div>
-                </div>
-
-                <!-- Week 8 -->
-                <div class="week-card">
-                    <div class="week-header"><h3>WEEK 08</h3></div>
-                    <div class="week-body">
-                        <div class="subject-item s-english"><div class="subject-title">English</div><div class="subject-val">Letter 'x' Drill</div><a href="https://drive.google.com/file/d/1IWZV3xr4ai9PhGPEIoetmG9H43Ryl0nq/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-en">Resource Link</a></div>
-                        <div class="subject-item s-urdu"><div class="subject-title">Urdu</div><div class="subject-val">Alphabet Review</div><a href="https://drive.google.com/file/d/1IWZV3xr4ai9PhGPEIoetmG9H43Ryl0nq/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-ur">Resource Link</a></div>
-                        <div class="subject-item s-math"><div class="subject-title">Math</div><div class="subject-val">Number 23</div><a href="https://drive.google.com/file/d/1IWZV3xr4ai9PhGPEIoetmG9H43Ryl0nq/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-ma">Resource Link</a></div>
-                        <div class="subject-item s-it"><div class="subject-title">IT (Digital Activities)</div><div class="subject-val">Logic & Shapes</div><a href="https://drive.google.com/file/d/1IWZV3xr4ai9PhGPEIoetmG9H43Ryl0nq/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-it">Resource Link</a></div>
-                        <div class="subject-item s-hcd"><div class="subject-title">HCD</div><div class="subject-val">Rule Following</div><a href="https://drive.google.com/file/d/1IWZV3xr4ai9PhGPEIoetmG9H43Ryl0nq/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-hc">Resource Link</a></div>
-                    </div>
-                </div>
-
-                <div class="week-card">
-                    <div class="week-header"><h3>WEEK 09</h3></div>
-                    <div class="week-body">
-                        <div class="subject-item s-english"><div class="subject-title">English</div><div class="subject-val">Letters 'y' & 'z'</div><a href="https://drive.google.com/file/d/10Aj-NSdO0sn4M9vT8ss43cVbRFMvPPHW/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-en">Resource Link</a></div>
-                        <div class="subject-item s-urdu"><div class="subject-title">Urdu</div><div class="subject-val">Alphabet Drill</div><a href="https://drive.google.com/file/d/10Aj-NSdO0sn4M9vT8ss43cVbRFMvPPHW/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-ur">Resource Link</a></div>
-                        <div class="subject-item s-math"><div class="subject-title">Math</div><div class="subject-val">Numbers 24-25</div><a href="https://drive.google.com/file/d/10Aj-NSdO0sn4M9vT8ss43cVbRFMvPPHW/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-ma">Resource Link</a></div>
-                        <div class="subject-item s-it"><div class="subject-title">IT (Digital Activities)</div><div class="subject-val">Full Alphabet Recap</div><a href="https://drive.google.com/file/d/10Aj-NSdO0sn4M9vT8ss43cVbRFMvPPHW/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-it">Resource Link</a></div>
-                        <div class="subject-item s-hcd"><div class="subject-title">HCD</div><div class="subject-val">Community Helpers</div><a href="https://drive.google.com/file/d/10Aj-NSdO0sn4M9vT8ss43cVbRFMvPPHW/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-hc">Resource Link</a></div>
-                    </div>
-                </div>
-
-                <div class="week-card">
-                    <div class="week-header"><h3>WEEK 10</h3></div>
-                    <div class="week-body">
-                        <div class="subject-item s-english"><div class="subject-title">English</div><div class="subject-val">Final Revision</div><a href="https://drive.google.com/file/d/1L9pUorlMogVSLUpbl2MxG3qFKdzqsfCA/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-en">Resource Link</a></div>
-                        <div class="subject-item s-urdu"><div class="subject-title">Urdu</div><div class="subject-val">Oral Assessment</div><a href="https://drive.google.com/file/d/1PjpGDXqaMBzFycjlhqpkM_y4mYPm-Kwf/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-ur">Resource Link</a></div>
-                        <div class="subject-item s-math"><div class="subject-title">Math</div><div class="subject-val">Concept Check</div><a href="https://drive.google.com/file/d/1E9nn06oTZmG5JdwT-OMxHq92mFjp7-p1/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-ma">Resource Link</a></div>
-                        <div class="subject-item s-it"><div class="subject-title">IT (Digital Activities)</div><div class="subject-val">Term III Review Games</div><a href="https://drive.google.com/file/d/18DetciB0yhDxiPE3w5XBOUX-RXOlmzx5/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-it">Resource Link</a></div>
-                        <div class="subject-item s-hcd"><div class="subject-title">HCD</div><div class="subject-val">Final Celebration</div><a href="https://drive.google.com/file/d/1BvTckndwBhcIcF2g-Ezd7d6GPwBAXynO/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="res-btn btn-hc">Resource Link</a></div>
-                    </div>
-                </div>
-
+            <div class="user-profile">
+                <span>Teacher / Admin</span>
+                <img src="https://ui-avatars.com/api/?name=Admin&background=f0932b&color=fff" alt="User">
             </div>
-        </div>
-    </section>
+        </header>
 
-    <footer id="footer">
-        <div class="footer-logo">OVLP ACADEMY</div>
-        <p>Pre-Nursery Term III Portal | All Rights Reserved &copy; 2026</p>
-        <div style="margin-top: 20px; opacity: 0.6; font-size: 0.8rem;">
-            Designed for interactive learning environments.
-        </div>
-    </footer>
+        <div class="content-container">
+            
+            <!-- Dashboard View -->
+            <section id="view-dashboard" class="view-section">
+                <div class="page-header">
+                    <h1>Welcome to Term III</h1>
+                    <p>Pre-Nursery Academic Year 2025–26</p>
+                </div>
+                <div class="grid-cards">
+                    <div class="card" style="text-align: center; padding: 40px;">
+                        <i class="fa-solid fa-calendar-week" style="font-size: 3rem; color: var(--primary); margin-bottom: 15px;"></i>
+                        <h3>Active Week</h3>
+                        <p style="font-size: 1.2rem; margin: 10px 0;"><strong>Week 1</strong></p>
+                        <p>March 02 – 06, 2026</p>
+                        <button style="margin-top:20px;" class="btn-view" onclick="document.querySelectorAll('.nav-item')[1].click()">Go to Materials</button>
+                    </div>
+                </div>
+            </section>
 
+            <!-- Week 1 View -->
+            <section id="view-week1" class="view-section active">
+                <div class="page-header">
+                    <h1>Week 1 Modules</h1>
+                    <p>Duration: March 02 – 06, 2026 | All subjects and daily plans</p>
+                </div>
+
+                <div class="tabs-wrapper">
+                    <div class="tabs-header">
+                        <button class="tab-btn active" onclick="switchTab('w1-subjects', this)">Subject Resources</button>
+                        <button class="tab-btn" onclick="switchTab('w1-daybyday', this)">Day-by-Day Plan</button>
+                        <button class="tab-btn" onclick="switchTab('w1-oral', this)">Oral Questions</button>
+                    </div>
+
+                    <!-- Subjects Tab -->
+                    <div id="w1-subjects" class="tab-content active">
+                        <div class="grid-cards">
+                            
+                            <!-- English -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="icon-box ic-en"><i class="fa-solid fa-a"></i></div>
+                                    <div class="card-title">
+                                        <h3>English</h3>
+                                        <p>Stories & Letter 'q'</p>
+                                    </div>
+                                </div>
+                                <div class="iframe-container" id="iframe-en">
+                                    <iframe src="https://drive.google.com/file/d/1hrU64ZV_7dvGoZSJRF4QpyeplmHG4HZc/preview"></iframe>
+                                </div>
+                                <div class="file-list">
+                                    <div class="file-item" onclick="loadIframe('iframe-en', 'https://drive.google.com/file/d/1hrU64ZV_7dvGoZSJRF4QpyeplmHG4HZc/preview')">
+                                        <i class="fa-brands fa-google-drive"></i>
+                                        <div class="file-details"><h4>Letter q Video</h4><p>Embedded Preview</p></div>
+                                    </div>
+                                    <div class="file-item" onclick="loadIframe('iframe-en', 'https://drive.google.com/file/d/1p0tTL2nLOLiDIQcYsRddgsjxJyd64VBW/preview')">
+                                        <i class="fa-regular fa-file-pdf"></i>
+                                        <div class="file-details"><h4>Reading Letter q</h4><p>PDF Material</p></div>
+                                    </div>
+                                    <div class="file-item" onclick="loadIframe('iframe-en', 'https://drive.google.com/file/d/1YPejH9GCHm0rIpelgWYzrax3qNHjepIF/preview')">
+                                        <i class="fa-solid fa-book"></i>
+                                        <div class="file-details"><h4>Tree Story</h4><p>Storybook</p></div>
+                                    </div>
+                                    <div class="file-item" onclick="loadIframe('iframe-en', 'https://drive.google.com/file/d/1lwAwKqlnQvW-hFTRBqN4f_tHvo_02jVv/preview')">
+                                        <i class="fa-solid fa-book"></i>
+                                        <div class="file-details"><h4>The Honest Elephant</h4><p>Storybook</p></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Urdu -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="icon-box ic-ur"><i class="fa-solid fa-language"></i></div>
+                                    <div class="card-title">
+                                        <h3>Urdu</h3>
+                                        <p>Stories & Harf Zay</p>
+                                    </div>
+                                </div>
+                                <div class="iframe-container" id="iframe-ur">
+                                    <iframe src="https://drive.google.com/file/d/11BjDqU8D34audtVqVuLmQ8oKHD127MU3/preview"></iframe>
+                                </div>
+                                <div class="file-list">
+                                    <div class="file-item" onclick="loadIframe('iframe-ur', 'https://drive.google.com/file/d/11BjDqU8D34audtVqVuLmQ8oKHD127MU3/preview')">
+                                        <i class="fa-brands fa-google-drive"></i>
+                                        <div class="file-details"><h4>Harf Zay Video</h4><p>Embedded Preview</p></div>
+                                    </div>
+                                    <div class="file-item" onclick="loadIframe('iframe-ur', 'https://drive.google.com/file/d/1nLl5xOs8ZuVkBnnIXE07c94HswtUJsQY/preview')">
+                                        <i class="fa-regular fa-file-pdf"></i>
+                                        <div class="file-details"><h4>Reading Harf Zay</h4><p>PDF Material</p></div>
+                                    </div>
+                                    <div class="file-item" onclick="loadIframe('iframe-ur', 'https://drive.google.com/file/d/1l1Gdko6TYpm5cb6e8JHlenTX2PK9_s5h/preview')">
+                                        <i class="fa-solid fa-book"></i>
+                                        <div class="file-details"><h4>Murghi or Chiriya</h4><p>Storybook</p></div>
+                                    </div>
+                                    <div class="file-item" onclick="loadIframe('iframe-ur', 'https://drive.google.com/file/d/1ncUv2pL3RmwAOLrY5lHQ84rCgscjfDzj/preview')">
+                                        <i class="fa-solid fa-book"></i>
+                                        <div class="file-details"><h4>Bhalu ka Bacha</h4><p>Storybook</p></div>
+                                    </div>
+                                    <div class="file-item" onclick="loadIframe('iframe-ur', 'https://drive.google.com/file/d/1kickcOMQo0xpV-bJFEhDATb68gkuEENC/preview')">
+                                        <i class="fa-solid fa-book"></i>
+                                        <div class="file-details"><h4>Ont or Saya</h4><p>Storybook</p></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Math -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="icon-box ic-ma"><i class="fa-solid fa-hashtag"></i></div>
+                                    <div class="card-title">
+                                        <h3>Math</h3>
+                                        <p>Number 16</p>
+                                    </div>
+                                </div>
+                                <div class="iframe-container" id="iframe-ma">
+                                    <iframe src="https://drive.google.com/file/d/1v0P5MBRvRU_6_88h_bSGOyHdPy_Bu6_w/preview"></iframe>
+                                </div>
+                                <div class="file-list">
+                                    <div class="file-item" onclick="loadIframe('iframe-ma', 'https://drive.google.com/file/d/1v0P5MBRvRU_6_88h_bSGOyHdPy_Bu6_w/preview')">
+                                        <i class="fa-brands fa-google-drive"></i>
+                                        <div class="file-details"><h4>Learning Number 16</h4><p>Video Lesson</p></div>
+                                    </div>
+                                    <div class="file-item" onclick="loadIframe('iframe-ma', 'https://drive.google.com/file/d/1YqjIRgXZsZumvn__i9o6BZDFkvpzastO/preview')">
+                                        <i class="fa-regular fa-file-pdf"></i>
+                                        <div class="file-details"><h4>Reading Number 16</h4><p>PDF Material</p></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- IT -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="icon-box ic-it"><i class="fa-solid fa-desktop"></i></div>
+                                    <div class="card-title">
+                                        <h3>IT / Digital</h3>
+                                        <p>Term 3 Video</p>
+                                    </div>
+                                </div>
+                                <div class="iframe-container">
+                                    <video width="100%" height="100%" controls style="background:#000;">
+                                        <!-- Assuming the MP4 is uploaded locally based on instructions. Using a placeholder source if missing -->
+                                        <source src="Week 1 OVLP Grade Pre-Nursery IT Term 3.mp4" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                </div>
+                                <div class="file-list">
+                                    <div class="file-item active">
+                                        <i class="fa-solid fa-video"></i>
+                                        <div class="file-details"><h4>Week 1 IT Term 3.mp4</h4><p>Embedded Direct Video</p></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- HCD / Circle Time -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="icon-box ic-hc"><i class="fa-solid fa-hands-holding-child"></i></div>
+                                    <div class="card-title">
+                                        <h3>Circle Time & Health</h3>
+                                        <p>Pet Animals & Papaya</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 style="margin-top:10px; color:var(--primary);">Circle Time: Pet Animals</h4>
+                                    <ul class="task-list" style="margin-top:10px;">
+                                        <li>Pupils pick dry leaves & wrappers and throw in dustbin.</li>
+                                        <li>Bring empty yogurt boxes for plantation.</li>
+                                        <li>Identify wild and pet animals using pictures.</li>
+                                        <li>Speak about pet animals.</li>
+                                    </ul>
+                                    <p style="margin-top:10px; font-size:0.9rem;"><strong>HW:</strong> Manners pg 13, GK pg 46</p>
+                                    
+                                    <h4 style="margin-top:20px; color:var(--primary);">Health & Nutrition: Papaya</h4>
+                                    <ul class="task-list" style="margin-top:10px;">
+                                        <li>Workbook pages 15 and 16.</li>
+                                    </ul>
+                                    <p style="margin-top:10px; font-size:0.9rem;"><strong>HW:</strong> Bring Papaya or Papaya Juice/Jam in lunch.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- PE -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="icon-box ic-pe"><i class="fa-solid fa-child-reaching"></i></div>
+                                    <div class="card-title">
+                                        <h3>Physical Education</h3>
+                                        <p>Health Tracking</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 style="margin-top:10px; color:var(--primary);">Measure & Record</h4>
+                                    <ul class="task-list" style="margin-top:10px;">
+                                        <li>Record each student’s height.</li>
+                                        <li>Record each student’s weight.</li>
+                                        <li>Save measurements with date in chart.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Day-by-Day Tab -->
+                    <div id="w1-daybyday" class="tab-content">
+                        <!-- Day 1 -->
+                        <div class="day-block">
+                            <h2 class="day-title">Day 1</h2>
+                            <div class="subject-row">
+                                <div>
+                                    <h3 style="color:var(--english);">English</h3>
+                                    <span class="subj-badge bg-cw">Classwork</span>
+                                </div>
+                                <div>
+                                    <ul class="task-list">
+                                        <li>Writing q</li>
+                                        <li>Draw picture with q (quill, queen)</li>
+                                        <li>Notebook page 31</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="subject-row">
+                                <div>
+                                    <h3 style="color:var(--english);">English</h3>
+                                    <span class="subj-badge bg-hw">Homework</span>
+                                </div>
+                                <div>
+                                    <ul class="task-list">
+                                        <li>Writing q</li>
+                                        <li>Draw picture with q</li>
+                                        <li>Notebook page 32</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="subject-row">
+                                <div>
+                                    <h3 style="color:var(--math);">Math</h3>
+                                    <span class="subj-badge bg-cw">Classwork</span>
+                                </div>
+                                <div>
+                                    <ul class="task-list">
+                                        <li>Recognition of number 16</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="subject-row">
+                                <div>
+                                    <h3 style="color:var(--hcd);">HCD</h3>
+                                </div>
+                                <div>
+                                    <ul class="task-list">
+                                        <li>Taking Care / Pet Animals</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Day 2 -->
+                        <div class="day-block">
+                            <h2 class="day-title">Day 2</h2>
+                            <div class="subject-row">
+                                <div>
+                                    <h3 style="color:var(--english);">English</h3>
+                                    <span class="subj-badge bg-cw">Classwork</span>
+                                </div>
+                                <div>
+                                    <ul class="task-list">
+                                        <li>Reading of letter q</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="subject-row">
+                                <div>
+                                    <h3 style="color:var(--math);">Math</h3>
+                                    <span class="subj-badge bg-cw">Classwork</span>
+                                </div>
+                                <div>
+                                    <ul class="task-list">
+                                        <li>Writing number 16</li>
+                                        <li>Circle all 16</li>
+                                        <li>Notebook page 26</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="subject-row">
+                                <div>
+                                    <h3 style="color:var(--hcd);">HCD</h3>
+                                </div>
+                                <div>
+                                    <ul class="task-list">
+                                        <li>Food of the week is Papaya</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Day 3 -->
+                        <div class="day-block">
+                            <h2 class="day-title">Day 3</h2>
+                            <div class="subject-row">
+                                <div>
+                                    <h3 style="color:var(--english);">English</h3>
+                                    <span class="subj-badge bg-cw">Classwork</span>
+                                </div>
+                                <div>
+                                    <ul class="task-list">
+                                        <li>Writing q</li>
+                                        <li>Write first letter of pictures: moon, orange, pear, queen</li>
+                                        <li>Notebook page 33</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="subject-row">
+                                <div>
+                                    <h3 style="color:var(--math);">Math</h3>
+                                    <span class="subj-badge bg-cw">Classwork</span>
+                                </div>
+                                <div>
+                                    <ul class="task-list">
+                                        <li>Writing number 16</li>
+                                        <li>Fill in blanks (6–16)</li>
+                                        <li>Notebook page 27</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="subject-row">
+                                <div>
+                                    <h3 style="color:var(--hcd);">HCD</h3>
+                                </div>
+                                <div>
+                                    <ul class="task-list">
+                                        <li>Measure & record height and weight</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="subject-row">
+                                <div>
+                                    <h3 style="color:var(--math);">Math</h3>
+                                    <span class="subj-badge bg-hw">Homework</span>
+                                </div>
+                                <div>
+                                    <ul class="task-list">
+                                        <li>Fill in blanks (6–16)</li>
+                                        <li>Notebook page 28</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Day 4 -->
+                        <div class="day-block">
+                            <h2 class="day-title">Day 4</h2>
+                            <div class="subject-row">
+                                <div>
+                                    <h3 style="color:var(--english);">English</h3>
+                                    <span class="subj-badge bg-cw">Classwork</span>
+                                </div>
+                                <div>
+                                    <ul class="task-list">
+                                        <li>Fill in blanks (a–q)</li>
+                                        <li>Match letters with pictures: juice, lamp, kite, quilt</li>
+                                        <li>Notebook page 34</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="subject-row">
+                                <div>
+                                    <h3 style="color:var(--math);">Math</h3>
+                                    <span class="subj-badge bg-cw">Classwork</span>
+                                </div>
+                                <div>
+                                    <ul class="task-list">
+                                        <li>Workbook pages 69–70</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="subject-row">
+                                <div>
+                                    <h3 style="color:var(--math);">Math</h3>
+                                    <span class="subj-badge bg-hw">Homework</span>
+                                </div>
+                                <div>
+                                    <ul class="task-list">
+                                        <li>Workbook page 70</li>
+                                        <li>Color 16 moons</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="subject-row">
+                                <div>
+                                    <h3 style="color:var(--primary);">Oral</h3>
+                                </div>
+                                <div>
+                                    <ul class="task-list">
+                                        <li>Refer to Oral Questions section.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Day 5 -->
+                        <div class="day-block">
+                            <h2 class="day-title">Day 5</h2>
+                            <div class="subject-row">
+                                <div>
+                                    <h3 style="color:var(--english);">English</h3>
+                                    <span class="subj-badge bg-cw">Classwork</span>
+                                </div>
+                                <div>
+                                    <ul class="task-list">
+                                        <li>Dictation</li>
+                                        <li>Write a–q</li>
+                                        <li>Notebook page 35</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="subject-row">
+                                <div>
+                                    <h3 style="color:var(--urdu);">Urdu</h3>
+                                    <span class="subj-badge bg-cw">Classwork</span>
+                                </div>
+                                <div>
+                                    <ul class="task-list">
+                                        <li>حرف زکی پڑھائی</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="subject-row">
+                                <div>
+                                    <h3 style="color:var(--math);">Math</h3>
+                                    <span class="subj-badge bg-cw">Classwork</span>
+                                </div>
+                                <div>
+                                    <ul class="task-list">
+                                        <li>Dictation</li>
+                                        <li>Writing 0–16</li>
+                                        <li>Notebook page 29</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="subject-row">
+                                <div>
+                                    <h3 style="color:var(--primary);">Revision</h3>
+                                </div>
+                                <div>
+                                    <ul class="task-list">
+                                        <li>Revision of all previous work completed this week.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="subject-row">
+                                <div>
+                                    <h3 style="color:var(--text-main);">Homework</h3>
+                                    <span class="subj-badge bg-hw">Weekend</span>
+                                </div>
+                                <div>
+                                    <ul class="task-list">
+                                        <li>Reinforcement</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Oral Questions Tab -->
+                    <div id="w1-oral" class="tab-content">
+                        <div class="grid-cards">
+                            <div class="card">
+                                <h3 style="color:var(--primary); margin-bottom:15px;"><i class="fa-solid fa-flag"></i> Nation</h3>
+                                <p><strong>Q:</strong> What is the National game of Pakistan?</p>
+                                <p style="color:var(--text-light); margin-top:5px;"><strong>A:</strong> Hockey is the national game of Pakistan.</p>
+                            </div>
+                            <div class="card">
+                                <h3 style="color:var(--urdu); margin-bottom:15px;"><i class="fa-solid fa-star-and-crescent"></i> Faith</h3>
+                                <p><strong>Q:</strong> Where do Muslims go for Prayers?</p>
+                                <p style="color:var(--text-light); margin-top:5px;"><strong>A:</strong> Muslims go to Masjid for Prayers.</p>
+                            </div>
+                            <div class="card">
+                                <h3 style="color:var(--accent); margin-bottom:15px;"><i class="fa-solid fa-brain"></i> General Knowledge</h3>
+                                <p><strong>Q:</strong> Tell the names of 5 pet animals.</p>
+                                <p style="color:var(--text-light); margin-top:5px;"><strong>A:</strong> Dog, Cat, Parrot, Fish and Rabbit.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Parent Dashboard View -->
+            <section id="view-parents" class="view-section">
+                <div class="page-header">
+                    <h1>Parent Dashboard</h1>
+                    <p>Track your child's progress and access homework assignments</p>
+                </div>
+                <div class="mockup-alert">
+                    <i class="fa-solid fa-info-circle"></i> <strong>LMS Feature:</strong> This dashboard tracks homework completion and connects directly with cloud storage. (Simulation Mode)
+                </div>
+                <div class="grid-cards">
+                    <div class="card">
+                        <h3>Homework Tracker - Week 1</h3>
+                        <div style="margin-top: 15px;">
+                            <label style="display:block; margin-bottom:10px;"><input type="checkbox"> Day 1: Math Notebook pg 28</label>
+                            <label style="display:block; margin-bottom:10px;"><input type="checkbox"> Day 1: HCD Manners pg 13</label>
+                            <label style="display:block; margin-bottom:10px;"><input type="checkbox"> Day 4: Math Workbook pg 70</label>
+                            <label style="display:block; margin-bottom:10px;"><input type="checkbox"> Day 5: Weekend Reinforcement</label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Admin Panel View -->
+            <section id="view-admin" class="view-section">
+                <div class="page-header">
+                    <h1>Teacher Upload Panel</h1>
+                    <p>Manage curriculum and upload materials</p>
+                </div>
+                <div class="mockup-alert">
+                    <i class="fa-solid fa-info-circle"></i> <strong>Admin Controls:</strong> This panel allows editing of weekly content and uploading new Google Drive links seamlessly. (Simulation Mode)
+                </div>
+                <div class="card" style="max-width: 600px;">
+                    <h3>Upload New Material</h3>
+                    <form onsubmit="event.preventDefault(); alert('Material saved to Cloud Storage!');" style="margin-top:20px; display:flex; flex-direction:column; gap:15px;">
+                        <input type="text" placeholder="Week Number (e.g. 2)" style="padding:10px; border-radius:5px; border:1px solid #ccc;">
+                        <select style="padding:10px; border-radius:5px; border:1px solid #ccc;">
+                            <option>English</option>
+                            <option>Urdu</option>
+                            <option>Math</option>
+                            <option>IT</option>
+                        </select>
+                        <input type="text" placeholder="Google Drive Link" style="padding:10px; border-radius:5px; border:1px solid #ccc;">
+                        <input type="text" placeholder="Description / Title" style="padding:10px; border-radius:5px; border:1px solid #ccc;">
+                        <button type="submit" class="btn-view" style="padding:12px; font-size:1rem;">Add to Syllabus</button>
+                    </form>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script>
+        // Switch Side Navigation Views
+        function switchView(viewId, element) {
+            // Update active state in sidebar
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+
+            // Show selected view
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+        }
+
+        // Switch Tabs inside Week View
+        function switchTab(tabId, element) {
+            // Update active state in tabs
+            const tabsHeader = element.parentElement;
+            tabsHeader.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+
+            // Show selected tab content
+            const wrapper = tabsHeader.parentElement;
+            wrapper.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        // Load iframe securely
+        function loadIframe(iframeId, srcUrl) {
+            const container = document.getElementById(iframeId);
+            container.innerHTML = `<iframe src="${srcUrl}"></iframe>`;
+            
+            // highlight selected file item
+            const items = container.parentElement.querySelectorAll('.file-item');
+            items.forEach(el => el.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+        }
+    </script>
 </body>
 </html>
